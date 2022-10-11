@@ -1,21 +1,38 @@
 TabbedPanel:
     do_default_tab: False
-    canvas:
+    tab_pos: 'top_mid'
+    canvas.before:
+        Color:
+            rgba: 20/255, 0, 50/255, 1
         Rectangle:
             pos: self.pos
             size: self.size
-            source: "C:/Users/Kauê/Desktop/bg4.png"
+        Color:
+            rgba: 1, 1, 1, 1
+        Line:
+            width: 1
+            rectangle: self.x, self.y, self.width, self.height
     TabbedPanelItem:
         text: "Clock"
         background_color: (1, 0, 0, 0.3)
         font_name: "C:/Windows/Fonts/GOTHIC.ttf"
         BoxLayout:
             orientation: "vertical"
-            canvas:
+            canvas.before:
+                Color:
+                    rgba: 25/255, 0, 50/255, 1
                 Rectangle:
                     pos: self.pos
                     size: self.size
-                    source: "C:/Users/Kauê/Desktop/bg4.png"
+                Color:
+                    rgba: 1, 1, 1, 1
+                Line:
+                    width: 1
+                    rectangle: self.x, self.y, self.width, self.height
+            Label:
+                text: 'Clock'
+                font_name: "C:/Windows/Fonts/GOTHIC.ttf"
+                font_size: 25
             Label:
                 id: clocktime
                 text: "00:00"
@@ -34,11 +51,21 @@ TabbedPanel:
         font_name: "C:/Windows/Fonts/GOTHIC.ttf"
         BoxLayout:
             orientation: "vertical"
-            canvas:
+            canvas.before:
+                Color:
+                    rgba: 25/255, 0, 50/255, 1
                 Rectangle:
                     pos: self.pos
                     size: self.size
-                    source: "C:/Users/Kauê/Desktop/bg4.png"
+                Color:
+                    rgba: 1, 1, 1, 1
+                Line:
+                    width: 1
+                    rectangle: self.x, self.y, self.width, self.height
+            Label:
+                text: 'Stopwatch'
+                font_name: "C:/Windows/Fonts/GOTHIC.ttf"
+                font_size: 25
             Label:
                 id: stopwatch_counter
                 text: "00:00:00"
@@ -66,35 +93,45 @@ TabbedPanel:
         font_name: "C:/Windows/Fonts/GOTHIC.ttf"
         BoxLayout:
             orientation: "vertical"
-            canvas:
+            canvas.before:
+                Color:
+                    rgba: 25/255, 0, 50/255, 1
                 Rectangle:
                     pos: self.pos
                     size: self.size
-                    source: "C:/Users/Kauê/Desktop/bg4.png"
+                Color:
+                    rgba: 1, 1, 1, 1
+                Line:
+                    width: 1
+                    rectangle: self.x, self.y, self.width, self.height
             BoxLayout:
                 orientation: "horizontal"
-                size_hint: (1, 0.5)
+                size_hint: (1, 0.8)
                 Spinner:
                     id: countdown_horas
-                    text: "0"
+                    text: "00"
                     background_normal: ''
                     values: []
                     background_color: (1, 1, 1, 0.2)
                     on_text: app.countdown_horas_clicked(countdown_horas.text)
                 Spinner:
                     id: countdown_minutos
-                    text: "0"
+                    text: "00"
                     values: []
                     background_normal: ''
                     background_color: (1, 1, 1, 0.2)
                     on_text: app.countdown_minutos_clicked(countdown_minutos.text)
                 Spinner:
                     id: countdown_segundos
-                    text: "0"
+                    text: "00"
                     background_normal: ''
                     values: []
                     background_color: (1, 1, 1, 0.2)
                     on_text: app.countdown_segundos_clicked(countdown_segundos.text)
+            Label:
+                text: 'Countdown Timer'
+                font_name: "C:/Windows/Fonts/GOTHIC.ttf"
+                font_size: 25
             Label:
                 id: countdown_counter
                 text: "00:00:00"
