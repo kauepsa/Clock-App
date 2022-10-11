@@ -1,0 +1,118 @@
+TabbedPanel:
+    do_default_tab: False
+    canvas:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: "C:/Users/Kauê/Desktop/bg4.png"
+    TabbedPanelItem:
+        text: "Clock"
+        background_color: (1, 0, 0, 0.3)
+        font_name: "C:/Windows/Fonts/GOTHIC.ttf"
+        BoxLayout:
+            orientation: "vertical"
+            canvas:
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+                    source: "C:/Users/Kauê/Desktop/bg4.png"
+            Label:
+                id: clocktime
+                text: "00:00"
+                font_name: "C:/Windows/Fonts/GOTHIC.ttf"
+                font_size: 45
+                size_hint: (1, 2)
+            Label:
+                id: clockday
+                text: "00:00"
+                font_name: "C:/Windows/Fonts/GOTHIC.ttf"
+                font_size: 20
+                size_hint: (1, 2)
+    TabbedPanelItem:
+        text: "StopWatch"
+        background_color: (1, 0, 0, 0.3)
+        font_name: "C:/Windows/Fonts/GOTHIC.ttf"
+        BoxLayout:
+            orientation: "vertical"
+            canvas:
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+                    source: "C:/Users/Kauê/Desktop/bg4.png"
+            Label:
+                id: stopwatch_counter
+                text: "00:00:00"
+                font_name: "C:/Windows/Fonts/GOTHIC.ttf"
+                font_size: 45
+                size_hint: (1, 3)
+            BoxLayout:
+                orientation: "horizontal"
+                Button:
+                    id: stopwatch_start_stop
+                    text: "Start"
+                    background_normal: ''
+                    background_color: (1, 1, 1, 0.2)
+                    font_size: 30
+                    on_press: app.stopwatch_stop_start()
+                Button:
+                    id: stopwatch_reset
+                    text: "Reset"
+                    font_size: 30
+                    on_press: app.stopwatch_reset()
+                    background_color: (1, 0, 0, 0.2)
+    TabbedPanelItem:
+        text: "Countdown"
+        background_color: (1, 0, 0, 0.3)
+        font_name: "C:/Windows/Fonts/GOTHIC.ttf"
+        BoxLayout:
+            orientation: "vertical"
+            canvas:
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+                    source: "C:/Users/Kauê/Desktop/bg4.png"
+            BoxLayout:
+                orientation: "horizontal"
+                size_hint: (1, 0.5)
+                Spinner:
+                    id: countdown_horas
+                    text: "0"
+                    background_normal: ''
+                    values: []
+                    background_color: (1, 1, 1, 0.2)
+                    on_text: app.countdown_horas_clicked(countdown_horas.text)
+                Spinner:
+                    id: countdown_minutos
+                    text: "0"
+                    values: []
+                    background_normal: ''
+                    background_color: (1, 1, 1, 0.2)
+                    on_text: app.countdown_minutos_clicked(countdown_minutos.text)
+                Spinner:
+                    id: countdown_segundos
+                    text: "0"
+                    background_normal: ''
+                    values: []
+                    background_color: (1, 1, 1, 0.2)
+                    on_text: app.countdown_segundos_clicked(countdown_segundos.text)
+            Label:
+                id: countdown_counter
+                text: "00:00:00"
+                font_name: "C:/Windows/Fonts/GOTHIC.ttf"
+                font_size: 45
+                size_hint: (1, 3)
+            BoxLayout:
+                orientation: "horizontal"
+                Button:
+                    id: countdown_start_stop
+                    text: "Start"
+                    background_normal: ''
+                    background_color: (1, 1, 1, 0.2)
+                    font_size: 30
+                    on_press: app.countdown_stop_start()
+                Button:
+                    id: countdown_reset
+                    text: "Reset"
+                    font_size: 30
+                    on_press: app.countdown_reset()
+                    background_color: (1, 0, 0, 0.2)
