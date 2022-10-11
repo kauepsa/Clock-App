@@ -1,42 +1,120 @@
 from kivy.config import Config
 
-Config.set("graphics", "resizable", True)
-Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
-
+Config.set("graphics", "resizable", False)
+from time import strftime
 from kivy.app import App
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.screenmanager import Screen
-from kivy.lang.builder import Builder
-from kivy.core.window import Window
 from kivy.clock import Clock
-from kivy.uix.popup import Popup
-from kivy.core.audio import SoundLoader
-from datetime import datetime
-import csv
+from kivy.core.window import Window
 
-Window.size = (800, 538)
-Window.minimum_width, Window.minimum_height = (800, 360)
+Window.size = (400, 400)
 
-Builder.load_file('main.kv')
 
-# Variables Setup 
-widgets = [] # list of actual widgets
-widget_id = 0 # id generator for widgets , unique and don't repeat after delete
-actual_widget = [] # list of the actual widget values
-widgets_id = [] # list of the widgets ids
-widgets_count = 0 # count of the ammount of widgets
+class MyApp(App):
+    stopwatch_started = False
+    stopwatch_seconds = 0
+    countdown_started = False
+    countdown_seconds = 0
+    countdown_hora = 0
+    countdown_sec = 0
+    countdown_minutes = 0
+    countdown_paused = False
+    hrs24 = [str(i) for i in range(0, 24)]
+    minut60 = [str(i) for i in range(0, 61)]
+    sec60 = [str(i) for i in range(0, 61)]
 
-# Load from csv file when open.
-def load_widgets():
-    with open('savedtasks.csv') as file:
-        arquive = csv.DictReader(file)
-        for i in arquive:
-            widgets.append(i)
+    def on_start(self):
+        Clock.schedule_interval(self.update, 0)
+
+    def update(self, tick):
+        # Main Clock
+        self.root.ids.clocktime.text = strftime("%H:%M:%S")
+        self.root.ids.clockday.text = strftime("%m/%d/%Y")
+        #-------------Countdown Setup--------------#
+        # START: Started (True) + Paused (False)
+        # PAUSE: Started (True) + Paused (True)
+        # RESET: Started (False) + Paused (False)
+        if self.countdown_started:
+            self.countdown_paused = False
+            self.root.ids.countdown_minutos.values = []
+            self.root.ids.countdown_segundos.values = []
+            self.root.ids.countdown_horas.values = []
+            self.root.ids.countdown_minutos.font_size = 0
+            self.root.ids.countdown_segundos.font_size = 0
+            self.root.ids.countdown_horas.font_size = 0
+            if self.countdown_seconds > 0:
+                self.countdown_seconds -= tick
+            if self.countdown_seconds <= 0:
+                self.countdown_started = False
+                self.root.ids.countdown_start_stop.text = "Start"
+        
+        if not self.countdown_started:
+            if not self.countdown_paused:
+                self.root.ids.countdown_minutos.font_size = 20
+                self.root.ids.countdown_segundos.font_size = 20
+                self.root.ids.countdown_horas.font_size = 20
+                self.root.ids.countdown_minutos.values = self.minut60
+                self.root.ids.countdown_segundos.values = self.sec60
+                self.root.ids.countdown_horas.values = self.hrs24
+                
+        if self.stopwatch_started:
+            self.stopwatch_seconds += tick
+
+        a, b = divmod(self.stopwatch_seconds, 60)
+        m, s = divmod(self.countdown_seconds, 60)
+
+        self.root.ids.stopwatch_counter.text = ("%02d:%02d:%02d" % (int(a), int(b), int(b * 100 % 100)))
+        self.root.ids.countdown_counter.text = ("%02d:%02d:%02d" % (int(m / 60), int(m % 60), int(s)))
+
+    def stopwatch_stop_start(self):
+        self.root.ids.stopwatch_start_stop.text = "Start" if self.stopwatch_started else 'Stop'
+        self.stopwatch_started = not self.stopwatch_started
+
+    def stopwatch_reset(self):
+        self.root.ids.stopwatch_start_stop.text = 'Start'
+        self.stopwatch_started = False
+        self.stopwatch_seconds = 0
+
+    def countdown_minutos_clicked(self, value):
+        if self.countdown_started:
+            self.countdown_started = False
+            self.countdown_paused = True
+        self.countdown_minutes = int(value)
+        self.root.ids.countdown_start_stop.text = "Start"
+
+    def countdown_segundos_clicked(self, value):
+        if self.countdown_started:
+            self.countdown_started = False
+            self.countdown_paused = True
+        self.countdown_sec = int(value)
+        self.root.ids.countdown_start_stop.text = "Start"
+
+    def countdown_horas_clicked(self, value):
+        if self.countdown_started:
+            self.countdown_started = False
+            self.countdown_paused = True
+        self.countdown_hora = int(value)
+        self.root.ids.countdown_start_stop.text = "Start"
+
+    def countdown_stop_start(self):
+        if not self.countdown_started and not self.countdown_paused:
+            self.countdown_seconds = self.countdown_minutes * 60 + self.countdown_sec + self.countdown_hora * 3600
+        self.root.ids.countdown_start_stop.text = "Start" if self.countdown_started else 'Stop'
+        self.countdown_started = not self.countdown_started
+        self.countdown_paused = True
+
+    def countdown_reset(self):
+        self.root.ids.countdown_start_stop.text = 'Start'
+        self.countdown_started = False
+        self.countdown_paused = False
+        self.root.ids.countdown_minutos.text = "0"
+        self.root.ids.countdown_segundos.text = "0"
+        self.root.ids.countdown_horas.text = "0"
+        self.countdown_sec = 0
+        self.countdown_hora = 0
+        self.countdown_minutes = 0
+        self.countdown_seconds = 0
+
+
+if __name__ == "__main__":
+    MyApp().run()
             
-# Save to csv file when closed.
-def save_widgets():
-    with open('savedtasks.csv', 'w', newline='') as file:
-        arquive = csv.writer(file)
-        arquive.writerow(['ID', 'NAME', 'DAYS', 'HOUR', 'MINUTE', 'STATE'])
-        for i in widgets:
-            arquive.writerow(i.values())
