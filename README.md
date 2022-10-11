@@ -1,5 +1,6 @@
 # Clock App (Clock , Stopwatch , Countdown Timer)
--> Application written in in Python + Kivy 
+-> Application written in in Python + Kivy <-
+
 ![image](https://user-images.githubusercontent.com/93888091/195201557-d0084c8c-6917-4c98-8ef7-79e00db3a60f.png)
 ![image](https://user-images.githubusercontent.com/93888091/195201583-c3dd9c63-920a-4c05-acf0-63eafcca8113.png)
 ![image](https://user-images.githubusercontent.com/93888091/195201613-e6c4dcb9-8636-4d77-8b5b-f8985fd6a6bb.png)
